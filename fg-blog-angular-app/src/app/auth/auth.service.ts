@@ -20,7 +20,8 @@ export class AuthService {
   }
 
   basicRegister(formData): Observable<any> {
-    const body = { username : formData.username, email: formData.email, password1: formData.password, password2: formData.re_password};
+    // tslint:disable-next-line:max-line-length
+    const body = { name: formData.name, username : formData.username, email: formData.email, password1: formData.password, password2: formData.re_password};
     this.user = this.http.post(this.baseurl + '/accounts/registration/', body, {headers : this.httpHeaders});
     return this.user;
   }
@@ -40,5 +41,13 @@ export class AuthService {
   logout(): Observable<any> {
     this.user = null;
     return this.http.post(this.baseurl + '/accounts/logout/', {}, {headers: this.httpHeaders});
+  }
+
+  getUserDataFromToken(token): Observable<any> {
+    const auth = 'Token ' + token;
+    const headers = new HttpHeaders({'Content-Type': 'application/json', Authorization: auth});
+
+    // tslint:disable-next-line:object-literal-shorthand
+    return this.http.get(this.baseurl + '/token/token_to_user/', {headers: headers});
   }
 }

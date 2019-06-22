@@ -15,11 +15,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:4200",
-    "http://127.0.0.1:4200"
-]
-
 # adjust the minimal login
 LOGIN_URL = 'core_login'
 LOGIN_REDIRECT_URL = '/'
@@ -48,6 +43,8 @@ INSTALLED_APPS = DEFAULT_APPS + [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
+    'taggit',
+    'taggit_serializer',
 
     # Social authentic
     'social_django',
@@ -58,9 +55,14 @@ INSTALLED_APPS = DEFAULT_APPS + [
 
     'apps.api',
     'apps.authen',
+    'apps.base',
+    'apps.post',
+    'apps.discussion',
     'corsheaders',
 ]
 
+# Time zone
+TIME_ZONE = "Asia/Ho_Chi_Minh"
 
 SITE_ID = 2
 
@@ -80,6 +82,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE += ['corsheaders.middleware.CorsMiddleware']
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
     'social_core.backends.google.GoogleOpenId',  # for Google authentication
@@ -90,6 +95,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+#Taggit
+TAGGIT_CASE_INSENSITIVE = True
 
 #Google login
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='671755523680-kl8oatubi2m7andl8pstad21t9eneoqf.apps.googleusercontent.com'

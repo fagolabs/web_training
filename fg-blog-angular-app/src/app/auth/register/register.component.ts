@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   btnDisable = true;
 
   // tslint:disable-next-line:variable-name
-  constructor(private formBuilder: FormBuilder, private api: MyAuthService, _router: Router, private authService: AuthService) {
+  constructor( private formBuilder: FormBuilder, private api: MyAuthService, _router: Router, private authService: AuthService) {
     this.router = _router;
   }
 
@@ -39,14 +39,10 @@ export class RegisterComponent implements OnInit {
     },  {validator: RepeatPasswordValidator }
     );
 
-    // // Init authentic
-    // this.authService.authState.subscribe((user) => {
-    //   this.user = user;
-    //   console.log(user);
-    //   if (user) {
-    //     this.router.navigateByUrl('/newest');
-    //   }
-    // });
+    // Init authentic
+    if (localStorage.getItem('currentToken') != null) {
+      this.router.navigateByUrl('/newest');
+    }
   }
 
   get name() {
@@ -69,13 +65,15 @@ export class RegisterComponent implements OnInit {
     return this.form.get('re_password');
   }
 
+
   toggleTerm(event) {
     this.isChecked = !this.isChecked;
     this.btnDisable = !this.isChecked;
   }
 
-  doBasicRegister = () => {
+  doBasicRegister(): void {
     const formData = {
+      name: this.name.value,
       email : this.email.value,
       username : this.username.value,
       password: this.password.value,
@@ -84,6 +82,8 @@ export class RegisterComponent implements OnInit {
     this.api.basicRegister(formData).subscribe(
       data => {
         console.log("Success: " + data);
+        localStorage.setItem('currentToken', JSON.stringify({ token: data.key}));
+        this.getUserData(data.key);
         this.router.navigateByUrl('/newest');
       },
       error => {
@@ -106,6 +106,8 @@ export class RegisterComponent implements OnInit {
           this.api.loginFacebook(authToken).subscribe(
             data => {
               console.log(data);
+              localStorage.setItem('currentToken', JSON.stringify({ token: data.key}));
+              this.getUserData(data.key);
               this.router.navigateByUrl('/newest');
             },
             error => {
@@ -126,6 +128,8 @@ export class RegisterComponent implements OnInit {
         this.api.loginGoogle(authToken).subscribe(
           data => {
             console.log(data);
+            localStorage.setItem('currentToken', JSON.stringify({ token: data.key}));
+            this.getUserData(data.key);
             this.router.navigateByUrl('/newest');
           },
           error => {
@@ -142,5 +146,16 @@ export class RegisterComponent implements OnInit {
 
   doGithubRegister() {
 
+  }
+
+  getUserData(token) {
+    this.api.getUserDataFromToken(token).subscribe(
+      data => {
+        localStorage.setItem('currentUser', JSON.stringify({ id: data.id, name: data.name, username: data.username, email: data.email}));
+      },
+      error => {
+        console.log("Error");
+      }
+    );
   }
 }

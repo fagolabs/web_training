@@ -30,13 +30,9 @@ export class LoginComponent implements OnInit {
     );
 
     // Init authentic
-    // this.authService.authState.subscribe((user) => {
-    //   this.api.user = user;
-    //   console.log(user);
-    //   if (user) {
-    //     this.router.navigateByUrl('/newest');
-    //   }
-    // });
+    if (localStorage.getItem('currentToken') != null) {
+      this.router.navigateByUrl('/newest');
+    }
   }
 
   get username() {
@@ -56,8 +52,8 @@ export class LoginComponent implements OnInit {
     };
     this.api.login(formData).subscribe(
       data => {
-        console.log("Logged in");
-        console.log(data);
+        localStorage.setItem('currentToken', JSON.stringify({ token: data.key}));
+        this.getUserData(data.key);
         this.router.navigateByUrl('/newest');
       },
       error => {
@@ -80,6 +76,8 @@ export class LoginComponent implements OnInit {
           this.api.loginFacebook(authToken).subscribe(
             data => {
               console.log(data);
+              localStorage.setItem('currentToken', JSON.stringify({ token: data.key}));
+              this.getUserData(data.key);
               this.router.navigateByUrl('/newest');
             },
             error => {
@@ -100,6 +98,8 @@ export class LoginComponent implements OnInit {
         this.api.loginGoogle(authToken).subscribe(
           data => {
             console.log(data);
+            this.getUserData(data.key);
+            localStorage.setItem('currentToken', JSON.stringify({ token: data.key}));
             this.router.navigateByUrl('/newest');
           },
           error => {
@@ -116,6 +116,17 @@ export class LoginComponent implements OnInit {
 
   doGithubRegister() {
 
+  }
+
+  getUserData(token) {
+    this.api.getUserDataFromToken(token).subscribe(
+      data => {
+        localStorage.setItem('currentUser', JSON.stringify({ id: data.id, name: data.name, username: data.username, email: data.email}));
+      },
+      error => {
+        console.log("Error");
+      }
+    );
   }
 
 }
