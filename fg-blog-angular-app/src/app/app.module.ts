@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // Social authen
 import { SocialLoginModule } from 'angularx-social-login';
@@ -13,12 +14,12 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SimplemdeModule } from 'ngx-simplemde';
 import { ClickOutsideModule } from 'ng-click-outside';
-
+import {StickyModule} from 'ng2-sticky-kit';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
+import { NavbarComponent } from './base/navbar/navbar.component';
+import { FooterComponent } from './base/footer/footer.component';
 import { PostManageComponent } from './post/post-manage/post-manage.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { DiscussionsComponent } from './discussions/discussions.component';
@@ -29,9 +30,9 @@ import { TagsComponent } from './tags/tags.component';
 import { OrgnizationsComponent } from './orgnizations/orgnizations.component';
 import { SearchComponent } from './search/search.component';
 import { SeriesComponent } from './series/series.component';
-import { NewestComponent } from './newest/newest.component';
+import { NewestPostComponent } from './post/newest-posts/newest-post.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { PromoBannerComponent } from './promo-banner/promo-banner.component';
+import { PromoBannerComponent } from './base/promo-banner/promo-banner.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 
 import { PostComponent as PublishPostComponent } from './publish/post/post.component';
@@ -41,6 +42,15 @@ import { TableOfContentsComponent } from './article-partial/table-of-contents/ta
 import { SuggestOrgnizationsComponent } from './article-partial/suggest-orgnizations/suggest-orgnizations.component';
 import { ArticleActionsComponent } from './article-partial/article-actions/article-actions.component';
 import { ArticleCommentsComponent } from './article-partial/article-comments/article-comments.component';
+import { NewestQuestionsComponent } from './questions/newest-questions/newest-questions.component';
+import { NewestDiscussionsComponent } from './discussions/newest-discussions/newest-discussions.component';
+import { NotfoundComponent } from './base/notfound/notfound.component';
+import { CustomDropdownDirective } from './utils/custom-dropdown.directive';
+import { PostFeedLinksComponent } from './post/post-feed-links/post-feed-links.component';
+import { PostFollowingsComponent } from './post/post-followings/post-followings.component';
+import { PostSuggestionComponent } from './post/post-suggestion/post-suggestion.component';
+import { PostFeedComponent } from './post/post-feed/post-feed.component';
+import { PaginationComponent } from './base/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +67,7 @@ import { ArticleCommentsComponent } from './article-partial/article-comments/art
     OrgnizationsComponent,
     SearchComponent,
     SeriesComponent,
-    NewestComponent,
+    NewestPostComponent,
     PromoBannerComponent,
     LogoutComponent,
     PublishPostComponent,
@@ -67,21 +77,33 @@ import { ArticleCommentsComponent } from './article-partial/article-comments/art
     SuggestOrgnizationsComponent,
     ArticleActionsComponent,
     ArticleCommentsComponent,
-
+    NewestQuestionsComponent,
+    NewestDiscussionsComponent,
+    NotfoundComponent,
+    CustomDropdownDirective,
+    PostFeedLinksComponent,
+    PostFollowingsComponent,
+    PostSuggestionComponent,
+    PostFeedComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     SocialLoginModule,
     FormsModule,
     ClickOutsideModule,
     NgbModule,
+    StickyModule,
     MarkdownModule.forRoot(),
     SimplemdeModule.forRoot(),
     RouterModule.forRoot([
-      { path: 'newest', component : NewestComponent},
+      { path: '', component : NewestPostComponent},
+      { path: 'newest', component : NewestPostComponent},
+      { path: 'followings', component : PostFollowingsComponent},
       { path: 'login', component : LoginComponent},
       { path: 'register', component : RegisterComponent},
       { path: 'posts/:id/edit', component : PostManageComponent},
@@ -95,8 +117,7 @@ import { ArticleCommentsComponent } from './article-partial/article-comments/art
       { path: 'authors', component : AuthorsComponent},
       { path: 'logout', component : LogoutComponent},
       { path: 'publish/post', component : PublishPostComponent},
-      { path: '**', redirectTo: "/newest"}
-
+      { path: '404', component: NotfoundComponent}
     ])
   ],
   providers: [

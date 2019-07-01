@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { PublishPostService } from '../publish-post.service';
 import {Router} from '@angular/router';
 import { auditTime } from 'rxjs/operators';
+import { SimplemdeModule } from 'ngx-simplemde';
 
 @Component({
   selector: 'app-publish-post',
@@ -18,6 +19,8 @@ export class PostComponent implements OnInit, AfterViewInit {
   isCanPublish = false;
   isSaved = false;
   savedTime = "";
+  customize: any;
+  visibility = 'draft';
 
   // tslint:disable-next-line:variable-name
   constructor(public formBuilder: FormBuilder, public postApi: PublishPostService, _router: Router) {
@@ -28,8 +31,7 @@ export class PostComponent implements OnInit, AfterViewInit {
     this.form = this.formBuilder.group({
       simplemde : new FormControl(""),
       title : new FormControl(""),
-      tags : new FormControl(""),
-      visibility: new FormControl("draft")
+      tags : new FormControl("")
 
     });
     this.form.valueChanges.pipe(auditTime(2000)).subscribe(formData => this.autoSaveForm(formData));
@@ -58,9 +60,9 @@ export class PostComponent implements OnInit, AfterViewInit {
       }
       return;
     } else {
-      this.isCanPublish = true;
       if (this.isSaved) {
         this.doUpdatePost();
+        this.isCanPublish = true;
       } else {
         this.doCreatePost();
       }
@@ -78,6 +80,7 @@ export class PostComponent implements OnInit, AfterViewInit {
       data => {
         console.log("Create success", data);
         this.isSaved = true;
+        this.isCanPublish = true;
         const postId = data.id;
         const nextUrl = `posts/${postId}/edit`;
         this.router.navigateByUrl(nextUrl);
@@ -118,10 +121,6 @@ export class PostComponent implements OnInit, AfterViewInit {
 
   get simplemde() {
     return this.form.get('simplemde');
-  }
-
-  get visibility() {
-    return this.form.get('visibility');
   }
 
   get title() {
@@ -200,13 +199,21 @@ export class PostComponent implements OnInit, AfterViewInit {
 
   get visibilityExplain() {
     // tslint:disable:triple-equals
-    if (this.visibility.value == 'draft') {
+    if (this.visibility == 'draft') {
       // tslint:disable:max-line-length
       return {icon: "fa fa-lock", detail: "Only you can see this post. Your draft is already saved automatically as you type.", btnText : "Save draft"};
-    } else if (this.visibility.value == 'draft_public') {
+    } else if (this.visibility == 'draft_public') {
       return {icon: "fa fa-eye-slash", detail: "Only those with the link to this post can see it.", btnText : "Save draft"};
     } else {
       return {icon: "fa fa-globe", detail: "Everyone can see your post.", btnText : "Publish"};
     }
   }
+
+  changeVisibility(status) {
+    this.visibility = status;
+  }
+
+  doUpdatePostStatus() {
+  }
+
 }
