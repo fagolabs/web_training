@@ -12,16 +12,16 @@ import { provideConfig } from './socialLoginConfig';
 // 3rd party lib
 import { MarkdownModule } from 'ngx-markdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SimplemdeModule } from 'ngx-simplemde';
+import { SimplemdeModule } from 'ngx-simplemde'; // @1.0.0
 import { ClickOutsideModule } from 'ng-click-outside';
 import {StickyModule} from 'ng2-sticky-kit';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './base/navbar/navbar.component';
 import { FooterComponent } from './base/footer/footer.component';
 import { PostManageComponent } from './post/post-manage/post-manage.component';
-import { QuestionsComponent } from './questions/questions.component';
 import { DiscussionsComponent } from './discussions/discussions.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -51,6 +51,8 @@ import { PostFollowingsComponent } from './post/post-followings/post-followings.
 import { PostSuggestionComponent } from './post/post-suggestion/post-suggestion.component';
 import { PostFeedComponent } from './post/post-feed/post-feed.component';
 import { PaginationComponent } from './base/pagination/pagination.component';
+import { CommentFormComponent } from './article-partial/comment-form/comment-form.component';
+import { QuestionFeedLinksComponent } from './questions/question-feed-links/question-feed-links.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,6 @@ import { PaginationComponent } from './base/pagination/pagination.component';
     NavbarComponent,
     FooterComponent,
     PostManageComponent,
-    QuestionsComponent,
     DiscussionsComponent,
     LoginComponent,
     RegisterComponent,
@@ -85,7 +86,9 @@ import { PaginationComponent } from './base/pagination/pagination.component';
     PostFollowingsComponent,
     PostSuggestionComponent,
     PostFeedComponent,
-    PaginationComponent
+    PaginationComponent,
+    CommentFormComponent,
+    QuestionFeedLinksComponent
   ],
   imports: [
     BrowserModule,
@@ -98,6 +101,7 @@ import { PaginationComponent } from './base/pagination/pagination.component';
     ClickOutsideModule,
     NgbModule,
     StickyModule,
+    TextareaAutosizeModule,
     MarkdownModule.forRoot(),
     SimplemdeModule.forRoot(),
     RouterModule.forRoot([
@@ -108,7 +112,7 @@ import { PaginationComponent } from './base/pagination/pagination.component';
       { path: 'register', component : RegisterComponent},
       { path: 'posts/:id/edit', component : PostManageComponent},
       { path: 'p/:id', component: PostDetailComponent},
-      { path: 'questions', component : QuestionsComponent},
+      { path: 'questions', component : NewestQuestionsComponent},
       { path: 'discussion', component : DiscussionsComponent},
       { path: 'search', component : SearchComponent},
       { path: 'tags', component : TagsComponent},
