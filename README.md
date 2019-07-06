@@ -23,7 +23,7 @@ Các tính năng hỗ trợ:
 
 No | Features
 --- | --- 
-1 | CRUD Posts, Comment on a Posts
+1 | CRUD Posts, Comment on Posts
 2 | Predefined techical categories
 
 Structure
