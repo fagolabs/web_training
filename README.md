@@ -21,7 +21,7 @@ Một trang web Technical Blog tương tự như Viblo Asia. Sử dụng Angular
 
 Các tính năng hỗ trợ:
 
-No | #1
+No | Features
 --- | --- 
 1 | CRUD Posts, Comment on a Posts
 2 | Predefined techical categories
