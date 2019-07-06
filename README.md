@@ -19,6 +19,12 @@ Một trang web Technical Blog tương tự như Viblo Asia. Sử dụng Angular
 
 ###### tags: `Python 3.x` `Django 2.x` `Angular 7` `Django Rest Framework 3.x` `Ngx-simplemde 1.0.0`
 
+Các tính năng hỗ trợ:
+No | #1
+--- | --- 
+1 | CRUD Posts, Comment on a Posts
+2 | Predefined techical categories
+
 Structure
 ---
 
